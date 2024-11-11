@@ -60,6 +60,8 @@ class UIMenu:
          2)Vazifani yangilash
          3)Vazifani o'chirish
          4)Mening Vazifalarim
+         5)Vazifani Sarlavhasini yangilash
+         0)Logout
          """)
         choice = input("Birini tanlang: ")
         db = Database()
@@ -90,7 +92,7 @@ class UIMenu:
             case '3':
                 print(db.all_todo(self.session_user))
                 id = input("ID sini kiriting=>>")
-                if db.delete_todo(id):
+                if db.delete_todo(id,self.session_user):
                     print("Muvaffaqiyatli Bajarildi!!!")
                     return self.user_menu()
             case '4':
@@ -99,4 +101,18 @@ class UIMenu:
                 if exit == "Exit":
                     print("Chiqilmoqda ... Xayr!")
                     return self.user_menu()
+            case "5":
+                print(db.all_todo(self.session_user))
+                id = input("ID sini kiriting=>>")
+                title=input("Sarlavhasini bering=>>")
+                if db.edit_todo(id,title,self.session_user):
+                    print("Muvaffaqiyatli Bajarildi!!!")
+                    return self.user_menu()
+                else:
+                    print("Nimadir xato ketdi!")
+                    return self.user_menu()
+            case "0":
+                    print("Chiqilmoqda ... Xayr!")
+                    self.session_user = None
+                    return self.welcome()
 

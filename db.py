@@ -108,12 +108,21 @@ class Database:
         else:
             return "Something Went Wrong"
 
-    def delete_todo(self, id):
+    def delete_todo(self, id,username):
         delete_todo_sql = """
-       DELETE FROM todo WHERE id=%s;
+       DELETE FROM todo WHERE id=%s and owner=%s;
        """
-        if self.cursor.execute(delete_todo_sql, (id,)):
+        if self.cursor.execute(delete_todo_sql, (id,username)):
             self.db.commit()
             return True
         else:
             return "Something Went Wrong"
+
+    def edit_todo(self, id,title,username):
+        edit_todo_sql="""update todo set title=%s where id=%s and owner=%s;"""
+        if self.cursor.execute(edit_todo_sql,(title,id,username)):
+            self.db.commit()
+            return True
+        else:
+            return "Something Went Wrong"
+
